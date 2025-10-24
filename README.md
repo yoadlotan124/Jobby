@@ -16,3 +16,6 @@ http://localhost:5174
 
 # API (docs)
 http://localhost:8000/docs
+
+# DB backup script
+./scripts/backup-db.sh

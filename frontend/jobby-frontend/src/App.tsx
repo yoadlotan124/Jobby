@@ -326,19 +326,19 @@ export default function App() {
             </div>
           </div>
 
-            <div className="relative rounded-2xl border border-slate-200/20 dark:border-slate-700/30 shadow-sm dark:shadow-[0_0_10px_rgba(255,255,255,0.05)]">
-              {/* SCROLLABLE CONTENT */}
+            <div className="relative rounded-2xl overflow-hidden border border-slate-200/20 dark:border-slate-700/30 shadow-sm dark:shadow-[0_0_10px_rgba(255,255,255,0.05)]">
+              {/* Scrollable content */}
               <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-slate-700/50 scrollbar-track-transparent hover:scrollbar-thumb-slate-600/70">
                 <table className="min-w-full table-auto border-collapse text-sm">
                   <thead className="bg-slate-100 dark:bg-slate-800/60">
                     <tr>
-                      <th className="px-4 py-3 text-left font-semibold w-[18%]">Company</th>
+                      <th className="px-4 py-3 text-left font-semibold w-[18%] rounded-tl-2xl">Company</th>
                       <th className="px-4 py-3 text-left font-semibold w-[18%]">Role</th>
                       <th className="px-4 py-3 text-left font-semibold w-[20%] hidden md:table-cell">Source</th>
                       <th className="px-4 py-3 text-left font-semibold w-[8%] hidden md:table-cell">Priority</th>
                       <th className="px-4 py-3 text-left font-semibold w-[14%]">Status</th>
                       <th className="px-4 py-3 text-left font-semibold w-[12%] hidden md:table-cell whitespace-nowrap">Last update</th>
-                      <th className="px-4 py-3 text-right font-semibold w-[10%]">Actions</th>
+                      <th className="px-4 py-3 text-right font-semibold w-[10%] rounded-tr-2xl">Actions</th>
                     </tr>
                   </thead>
 
@@ -416,8 +416,8 @@ export default function App() {
                 </table>
               </div>
 
-              {/* OUTSIDE gradient fade so it no longer covers content */}
-              <div className="pointer-events-none absolute right-0 top-0 bottom-6 w-8 bg-gradient-to-l from-slate-950/60 via-slate-950/20 to-transparent dark:from-slate-950/70 dark:via-slate-950/20 dark:to-transparent rounded-r-2xl" />
+              {/* Smooth right edge fade */}
+              <div className="pointer-events-none absolute right-0 top-0 bottom-6 w-8 bg-gradient-to-l from-slate-950/70 via-slate-950/20 to-transparent rounded-r-2xl" />
             </div>
         </section>
       </main>

@@ -32,3 +32,7 @@ Thumbs.db
 *.pid
 *.sock
 docker-compose.override.yml
+
+# keep DB backups
+!data/
+!data/*.db

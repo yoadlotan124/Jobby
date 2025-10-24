@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+.env
+.venv/
+env/
+venv/
+*.log
+
+# FastAPI / Alembic
+alembic/versions/*.pyc
+alembic/__pycache__/
+*.db
+
+# Node / React
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.production.local
+frontend/.env.test.local
+
+# IDEs / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Docker
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/.coverage
+*.dockerfile
+docker-compose.override.yml
+
+# Misc
+*.bak
+*.tmp

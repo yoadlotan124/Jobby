@@ -13,7 +13,7 @@ class JobBase(BaseModel):
     role_title: str = Field(..., min_length=1, max_length=200)
     location: Optional[str] = Field(None, max_length=200)
     source: Optional[str] = Field(None, max_length=200)
-    apply_url: Optional[HttpUrl] = None
+    apply_url: Optional[str] = Field(None, max_length=500)  # <- was HttpUrl
     stage: JobStage = JobStage.APPLIED
     decision: JobDecision = JobDecision.PENDING
     priority: int = Field(3, ge=1, le=5)
@@ -21,12 +21,28 @@ class JobBase(BaseModel):
     applied_at: Optional[datetime] = None
     last_status_at: Optional[datetime] = None
 
-    @field_validator("company_name", "role_title")
+    @field_validator("company_name", "role_title", mode="before")
     @classmethod
     def trim_nonempty(cls, v: str) -> str:
-        v = v.strip()
+        v = (v or "").strip()
         if not v:
             raise ValueError("must not be empty")
+        return v
+
+    @field_validator("apply_url", mode="before")
+    @classmethod
+    def normalize_url(cls, v: Optional[str]) -> Optional[str]:
+        if not v:
+            return None
+        v = v.strip()
+        if not v:
+            return None
+        # auto-add https if user pasted 'www.something.com'
+        if v.startswith("www."):
+            v = "https://" + v
+        # reject obviously broken values but keep it lenient
+        if " " in v or len(v) > 500:
+            raise ValueError("invalid URL")
         return v
 
 class JobCreate(JobBase):

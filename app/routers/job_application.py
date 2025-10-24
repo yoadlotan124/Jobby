@@ -6,11 +6,13 @@ from app.crud.job_application import (
     create_application,
     update_application,
     delete_application,
+    transition_application,   # <-- add
 )
-from app.schemas.job_application import JobCreate, JobUpdate, JobApplicationRead
+from app.schemas.job_application import (
+    JobCreate, JobUpdate, JobApplicationRead, TransitionUpdate  # <-- add
+)
 
 router = APIRouter(prefix="/applications", tags=["Applications"])
-
 
 def get_db():
     db = SessionLocal()
@@ -19,16 +21,13 @@ def get_db():
     finally:
         db.close()
 
-
 @router.get("/", response_model=list[JobApplicationRead])
 def read_applications(db: Session = Depends(get_db)):
     return get_applications(db)
 
-
 @router.post("/", response_model=JobApplicationRead, status_code=201)
 def create_app(application: JobCreate, db: Session = Depends(get_db)):
     return create_application(db, application)
-
 
 @router.put("/{application_id}", response_model=JobApplicationRead)
 def update_app(application_id: int, application: JobUpdate, db: Session = Depends(get_db)):
@@ -37,6 +36,14 @@ def update_app(application_id: int, application: JobUpdate, db: Session = Depend
         raise HTTPException(status_code=404, detail="Application not found")
     return updated
 
+# NEW: allow status/decision transitions (frontend calls this)
+@router.patch("/{application_id}/transition", response_model=JobApplicationRead)
+@router.patch("/{application_id}/transition/", response_model=JobApplicationRead)  # tolerate trailing slash
+def transition_app(application_id: int, payload: TransitionUpdate, db: Session = Depends(get_db)):
+    updated = transition_application(db, application_id, payload)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Application not found")
+    return updated
 
 @router.delete("/{application_id}", status_code=204)
 def delete_app(application_id: int, db: Session = Depends(get_db)):

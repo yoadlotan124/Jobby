@@ -169,7 +169,7 @@ export default function App() {
       if (filterStage) params.set("stage", filterStage);
       if (filterDecision) params.set("decision", filterDecision);
       if (searchCompany) params.set("company", searchCompany);
-      const res = await fetch(`${API_BASE}/applications?${params.toString()}`);
+      const res = await fetch(`${API_BASE}/applications/?${params.toString()}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setJobs(data);
@@ -209,7 +209,7 @@ export default function App() {
         priority: Number(createForm.priority ?? 3),
         notes: createForm.notes || null,
       };
-      const res = await fetch(`${API_BASE}/applications`, {
+      const res = await fetch(`${API_BASE}/applications/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

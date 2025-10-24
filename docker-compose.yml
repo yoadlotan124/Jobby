@@ -1,27 +1,30 @@
 version: "3.9"
-
 services:
-  backend:
-    build: .
+  jobby-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: jobby-backend
-    env_file: .env
+    env_file:
+      - ./app/.env
+    volumes:
+      - jobby_data:/app/data
     ports:
       - "8000:8000"
-    volumes:
-      - ./data:/app/data
-      - ./app:/app/app
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
 
-  frontend:
+  jobby-frontend:
     build:
-      context: ./frontend
+      context: ./frontend/jobby-frontend
+      dockerfile: Dockerfile
     container_name: jobby-frontend
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend/jobby-frontend:/app
-      - /app/node_modules
     environment:
       - VITE_API_URL=http://localhost:8000
+    ports:
+      - "5174:80"
     depends_on:
-      - backend
+      - jobby-backend
+    restart: unless-stopped
+
+volumes:
+  jobby_data:
